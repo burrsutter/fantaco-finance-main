@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"fantaco-finance-main"},"name":"fantaco-finance-service","namespace":"fantaco"},"spec":{"ports":[{"name":"http","port":8082,"protocol":"TCP","targetPort":8082}],"selector":{"app":"fantaco-finance-main"},"type":"ClusterIP"}}
+  creationTimestamp: "2025-10-08T15:30:18Z"
+  labels:
+    app: fantaco-finance-main
+  name: fantaco-finance-service
+  namespace: fantaco
+  resourceVersion: "955665"
+  uid: 9010c210-9126-49b5-900c-820701fa50cd
+spec:
+  clusterIP: 172.30.63.88
+  clusterIPs:
+  - 172.30.63.88
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    port: 8082
+    protocol: TCP
+    targetPort: 8082
+  selector:
+    app: fantaco-finance-main
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

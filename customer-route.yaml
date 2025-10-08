@@ -1,0 +1,31 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    openshift.io/host.generated: "true"
+  creationTimestamp: "2025-10-08T14:12:58Z"
+  labels:
+    app: fantaco-customer-main
+  name: fantaco-customer-service
+  namespace: fantaco
+  resourceVersion: "765575"
+  uid: 8b2b8c75-7d8f-42e8-afbb-64b99d5bd078
+spec:
+  host: fantaco-customer-service-fantaco.apps.cluster-w7g9q.w7g9q.sandbox544.opentlc.com
+  port:
+    targetPort: http
+  to:
+    kind: Service
+    name: fantaco-customer-service
+    weight: 100
+  wildcardPolicy: None
+status:
+  ingress:
+  - conditions:
+    - lastTransitionTime: "2025-10-08T14:12:58Z"
+      status: "True"
+      type: Admitted
+    host: fantaco-customer-service-fantaco.apps.cluster-w7g9q.w7g9q.sandbox544.opentlc.com
+    routerCanonicalHostname: router-default.apps.cluster-w7g9q.w7g9q.sandbox544.opentlc.com
+    routerName: default
+    wildcardPolicy: None

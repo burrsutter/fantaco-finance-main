@@ -280,20 +280,11 @@ export FIN_URL=http://$(oc get routes -n fantaco -l app=fantaco-finance-main -o 
 echo $FIN_URL
 ```
 
+### 1. Health Check
 ```bash
 curl $FIN_URL/api/finance/health
 ```
 
-## Testing with cURL
-
-```bash
-export FIN_URL=http://localhost:8082
-```
-
-### 1. Health Check
-```bash
-curl -X GET $FIN_URL/api/finance/health
-```
 
 ### 2. Get Order History
 ```bash

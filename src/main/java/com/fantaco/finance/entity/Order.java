@@ -1,5 +1,6 @@
 package com.fantaco.finance.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -9,35 +10,44 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
+@Schema(description = "Order entity representing a customer order")
 public class Order {
     
+    @Schema(description = "Unique identifier for the order", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Schema(description = "Unique order number", example = "ORD-2024-001")
     @NotBlank
     @Column(name = "order_number", unique = true, nullable = false)
     private String orderNumber;
     
+    @Schema(description = "Customer identifier", example = "CUST-12345")
     @NotBlank
     @Column(name = "customer_id", nullable = false)
     private String customerId;
     
+    @Schema(description = "Total amount for the order", example = "99.99")
     @NotNull
     @DecimalMin(value = "0.0", inclusive = false)
     @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalAmount;
     
+    @Schema(description = "Current status of the order", example = "CONFIRMED")
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private OrderStatus status;
     
+    @Schema(description = "Date when the order was placed", example = "2024-01-15T10:30:00")
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
     
+    @Schema(description = "Timestamp when the record was created", example = "2024-01-15T10:30:00")
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
     
+    @Schema(description = "Timestamp when the record was last updated", example = "2024-01-15T11:00:00")
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
@@ -125,7 +135,19 @@ public class Order {
         this.updatedAt = LocalDateTime.now();
     }
     
+    @Schema(description = "Order status enumeration")
     public enum OrderStatus {
-        PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED, REFUNDED
+        @Schema(description = "Order is pending confirmation")
+        PENDING, 
+        @Schema(description = "Order has been confirmed")
+        CONFIRMED, 
+        @Schema(description = "Order has been shipped")
+        SHIPPED, 
+        @Schema(description = "Order has been delivered")
+        DELIVERED, 
+        @Schema(description = "Order has been cancelled")
+        CANCELLED, 
+        @Schema(description = "Order has been refunded")
+        REFUNDED
     }
 }

@@ -32,7 +32,7 @@ Retrieve order history for a specific customer with optional date filtering.
 **Request Body:**
 ```json
 {
-  "customerId": "CUST-001",
+  "customerId": "LONEP",
   "startDate": "2024-01-01T00:00:00",
   "endDate": "2024-01-31T23:59:59",
   "limit": 50
@@ -48,7 +48,7 @@ Retrieve order history for a specific customer with optional date filtering.
     {
       "id": 1,
       "orderNumber": "ORD-001",
-      "customerId": "CUST-001",
+      "customerId": "LONEP",
       "totalAmount": 299.99,
       "status": "DELIVERED",
       "orderDate": "2024-01-15T10:30:00",
@@ -67,7 +67,7 @@ Retrieve invoice history for a specific customer with optional date filtering.
 **Request Body:**
 ```json
 {
-  "customerId": "CUST-001",
+  "customerId": "LONEP",
   "startDate": "2024-01-01T00:00:00",
   "endDate": "2024-01-31T23:59:59",
   "limit": 50
@@ -84,7 +84,7 @@ Retrieve invoice history for a specific customer with optional date filtering.
       "id": 1,
       "invoiceNumber": "INV-001",
       "orderId": 1,
-      "customerId": "CUST-001",
+      "customerId": "LONEP",
       "amount": 299.99,
       "status": "PAID",
       "invoiceDate": "2024-01-15T10:35:00",
@@ -104,7 +104,7 @@ Create a new duplicate charge dispute for an order.
 **Request Body:**
 ```json
 {
-  "customerId": "CUST-001",
+  "customerId": "LONEP",
   "orderId": 1,
   "description": "Charged twice for the same order",
   "reason": "Payment processor error caused duplicate charge"
@@ -120,7 +120,7 @@ Create a new duplicate charge dispute for an order.
     "id": 1,
     "disputeNumber": "DISP-ABC12345",
     "orderId": 1,
-    "customerId": "CUST-001",
+    "customerId": "LONEP",
     "disputeType": "DUPLICATE_CHARGE",
     "status": "OPEN",
     "description": "Charged twice for the same order",
@@ -138,7 +138,7 @@ Find or create a lost receipt record for an order.
 **Request Body:**
 ```json
 {
-  "customerId": "CUST-001",
+  "customerId": "LONEP",
   "orderId": 1
 }
 ```
@@ -152,7 +152,7 @@ Find or create a lost receipt record for an order.
     "id": 1,
     "receiptNumber": "RCPT-ABC12345",
     "orderId": 1,
-    "customerId": "CUST-001",
+    "customerId": "LONEP",
     "status": "LOST",
     "receiptDate": "2024-01-15T10:40:00"
   }
@@ -185,11 +185,6 @@ Check the health status of the API.
 ```bash
 # Create database
 createdb fantaco_finance
-
-# Create user
-psql -d fantaco_finance -c "CREATE USER fantaco_user WITH PASSWORD 'fantaco_password';"
-psql -d fantaco_finance -c "GRANT ALL PRIVILEGES ON DATABASE fantaco_finance TO fantaco_user;"
-```
 
 ### Run Application
 ```bash
@@ -302,22 +297,32 @@ curl -X GET $FIN_URL/api/finance/health
 
 ### 2. Get Order History
 ```bash
-curl -sS-X POST $FIN_URL/api/finance/orders/history \
+curl -sS -X POST $FIN_URL/api/finance/orders/history \
   -H "Content-Type: application/json" \
   -d '{
-    "customerId": "CUST-001",
-    "startDate": "2024-01-01T00:00:00",
+    "customerId": "LONEP",
+    "startDate": "2024-01-20T00:00:00",
     "endDate": "2024-01-31T23:59:59",
     "limit": 10
   }' | jq
 ```
+
+```bash
+curl -sS -X POST $FIN_URL/api/finance/orders/history \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customerId": "THECR",
+    "limit": 10
+  }' | jq
+```
+
 
 ### 3. Get Invoice History
 ```bash
 curl -sS -X POST $FIN_URL/api/finance/invoices/history \
   -H "Content-Type: application/json" \
   -d '{
-    "customerId": "CUST-001",
+    "customerId": "LONEP",
     "startDate": "2024-01-01T00:00:00",
     "endDate": "2024-01-31T23:59:59",
     "limit": 10
@@ -329,8 +334,8 @@ curl -sS -X POST $FIN_URL/api/finance/invoices/history \
 curl -sS -X POST $FIN_URL/api/finance/disputes/duplicate-charge \
   -H "Content-Type: application/json" \
   -d '{
-    "customerId": "CUST-001",
-    "orderId": 1,
+    "customerId": "AROUT",
+    "orderId": 8,
     "description": "Charged twice for the same order",
     "reason": "Payment processor error caused duplicate charge"
   }' | jq
@@ -341,10 +346,14 @@ curl -sS -X POST $FIN_URL/api/finance/disputes/duplicate-charge \
 curl -sS -X POST $FIN_URL/api/finance/receipts/find-lost \
   -H "Content-Type: application/json" \
   -d '{
-    "customerId": "CUST-001",
+    "customerId": "LONEP",
     "orderId": 1
   }' | jq
 ```
+
+##  Swagger URLs:
+  - Swagger UI: http://localhost:8082/swagger-ui.html
+  - API Docs (JSON): http://localhost:8082/api-docs
 
 
 ## Database Schema

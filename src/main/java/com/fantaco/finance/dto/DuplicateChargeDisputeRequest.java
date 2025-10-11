@@ -1,19 +1,25 @@
 package com.fantaco.finance.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@Schema(description = "Request object for starting a duplicate charge dispute")
 public class DuplicateChargeDisputeRequest {
     
+    @Schema(description = "Unique identifier for the customer", example = "CUST-12345", required = true)
     @NotBlank(message = "Customer ID is required")
     private String customerId;
     
+    @Schema(description = "Unique identifier for the order", example = "12345", required = true)
     @NotNull(message = "Order ID is required")
     private Long orderId;
     
+    @Schema(description = "Detailed description of the duplicate charge issue", example = "I was charged twice for the same order on 2024-01-15", required = true)
     @NotBlank(message = "Description is required")
     private String description;
     
+    @Schema(description = "Optional reason code for the dispute", example = "DUPLICATE_PAYMENT")
     private String reason;
     
     // Constructors

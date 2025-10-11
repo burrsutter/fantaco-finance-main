@@ -1,5 +1,6 @@
 package com.fantaco.finance.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -7,46 +8,59 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "receipts")
+@Schema(description = "Receipt entity representing a customer receipt")
 public class Receipt {
     
+    @Schema(description = "Unique identifier for the receipt", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Schema(description = "Unique receipt number", example = "RCP-2024-001")
     @NotBlank
     @Column(name = "receipt_number", unique = true, nullable = false)
     private String receiptNumber;
     
+    @Schema(description = "Associated order ID", example = "12345")
     @NotNull
     @Column(name = "order_id", nullable = false)
     private Long orderId;
     
+    @Schema(description = "Customer identifier", example = "CUST-12345")
     @NotBlank
     @Column(name = "customer_id", nullable = false)
     private String customerId;
     
+    @Schema(description = "Current status of the receipt", example = "FOUND")
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ReceiptStatus status;
     
+    @Schema(description = "File path for the receipt", example = "/receipts/2024/01/15/rcp-001.pdf")
     @Column(name = "file_path")
     private String filePath;
     
+    @Schema(description = "Original file name", example = "receipt-001.pdf")
     @Column(name = "file_name")
     private String fileName;
     
+    @Schema(description = "File size in bytes", example = "1024")
     @Column(name = "file_size")
     private Long fileSize;
     
+    @Schema(description = "MIME type of the file", example = "application/pdf")
     @Column(name = "mime_type")
     private String mimeType;
     
+    @Schema(description = "Date when the receipt was created", example = "2024-01-15T10:30:00")
     @Column(name = "receipt_date", nullable = false)
     private LocalDateTime receiptDate;
     
+    @Schema(description = "Timestamp when the record was created", example = "2024-01-15T10:30:00")
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
     
+    @Schema(description = "Timestamp when the record was last updated", example = "2024-01-15T11:00:00")
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
@@ -166,7 +180,17 @@ public class Receipt {
         this.updatedAt = LocalDateTime.now();
     }
     
+    @Schema(description = "Receipt status enumeration")
     public enum ReceiptStatus {
-        PENDING, FOUND, LOST, REGENERATED, CANCELLED
+        @Schema(description = "Receipt is pending")
+        PENDING, 
+        @Schema(description = "Receipt has been found")
+        FOUND, 
+        @Schema(description = "Receipt is lost")
+        LOST, 
+        @Schema(description = "Receipt has been regenerated")
+        REGENERATED, 
+        @Schema(description = "Receipt has been cancelled")
+        CANCELLED
     }
 }

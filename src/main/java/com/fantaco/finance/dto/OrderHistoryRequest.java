@@ -1,17 +1,23 @@
 package com.fantaco.finance.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
+@Schema(description = "Request object for retrieving order history for a customer")
 public class OrderHistoryRequest {
     
+    @Schema(description = "Unique identifier for the customer", example = "CUST-12345", required = true)
     @NotBlank(message = "Customer ID is required")
     private String customerId;
     
+    @Schema(description = "Start date for filtering orders (ISO 8601 format)", example = "2024-01-01T00:00:00")
     private LocalDateTime startDate;
     
+    @Schema(description = "End date for filtering orders (ISO 8601 format)", example = "2024-12-31T23:59:59")
     private LocalDateTime endDate;
     
+    @Schema(description = "Maximum number of orders to return", example = "50", defaultValue = "50")
     private Integer limit = 50; // Default limit
     
     // Constructors

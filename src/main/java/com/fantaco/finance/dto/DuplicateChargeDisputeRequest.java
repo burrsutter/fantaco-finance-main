@@ -63,4 +63,14 @@ public class DuplicateChargeDisputeRequest {
     public void setReason(String reason) {
         this.reason = reason;
     }
+
+    @Override
+    public String toString() {
+        return "DuplicateChargeDisputeRequest{" +
+                "customerId='" + customerId + '\'' +
+                ", orderId=" + orderId +
+                ", description='" + description + '\'' +
+                ", reason='" + reason + '\'' +
+                '}';
+    }
 }

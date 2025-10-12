@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +29,9 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 @Tag(name = "Finance API", description = "REST API for order, invoice, dispute, and receipt management")
 public class FinanceController {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(FinanceController.class);
+
     @Autowired
     private FinanceService financeService;
     
@@ -112,6 +116,7 @@ public class FinanceController {
     public ResponseEntity<Map<String, Object>> getOrderHistory(
         @Parameter(description = "Order history request parameters", required = true)
         @Valid @RequestBody OrderHistoryRequest request) {
+        logger.info("getOrderHistory called with request: {}", request);
         try {
             List<Order> orders = financeService.getOrderHistory(request);
             
@@ -216,6 +221,7 @@ public class FinanceController {
     public ResponseEntity<Map<String, Object>> getInvoiceHistory(
         @Parameter(description = "Invoice history request parameters", required = true)
         @Valid @RequestBody InvoiceHistoryRequest request) {
+        logger.info("getInvoiceHistory called with request: {}", request);
         try {
             List<Invoice> invoices = financeService.getInvoiceHistory(request);
             
@@ -317,6 +323,7 @@ public class FinanceController {
     public ResponseEntity<Map<String, Object>> startDuplicateChargeDispute(
         @Parameter(description = "Duplicate charge dispute request parameters", required = true)
         @Valid @RequestBody DuplicateChargeDisputeRequest request) {
+        logger.info("startDuplicateChargeDispute called with request: {}", request);
         try {
             Dispute dispute = financeService.startDuplicateChargeDispute(request);
             
@@ -425,6 +432,7 @@ public class FinanceController {
     public ResponseEntity<Map<String, Object>> findLostReceipt(
         @Parameter(description = "Find lost receipt request parameters", required = true)
         @Valid @RequestBody FindLostReceiptRequest request) {
+        logger.info("findLostReceipt called with request: {}", request);
         try {
             Receipt receipt = financeService.findLostReceipt(request);
             
@@ -484,6 +492,7 @@ public class FinanceController {
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Map<String, Object>> healthCheck() {
+        logger.info("healthCheck called");
         count++;
         Map<String, Object> response = new HashMap<>();
         response.put("status", "UP");

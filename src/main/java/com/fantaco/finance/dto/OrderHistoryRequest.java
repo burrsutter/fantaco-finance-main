@@ -65,4 +65,14 @@ public class OrderHistoryRequest {
     public void setLimit(Integer limit) {
         this.limit = limit;
     }
+
+    @Override
+    public String toString() {
+        return "OrderHistoryRequest{" +
+                "customerId='" + customerId + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", limit=" + limit +
+                '}';
+    }
 }

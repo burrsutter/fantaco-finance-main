@@ -39,4 +39,12 @@ public class FindLostReceiptRequest {
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
+
+    @Override
+    public String toString() {
+        return "FindLostReceiptRequest{" +
+                "customerId='" + customerId + '\'' +
+                ", orderId=" + orderId +
+                '}';
+    }
 }

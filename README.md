@@ -199,14 +199,32 @@ The API will be available at `http://localhost:8082`
 
 # Podman and Kubernetes Deployment
 
-### Build Docker Image
+### Build & Run 
 ```bash
 # Build the application
 mvn clean package
 ```
 
+```bash
+java -jar target/fantaco-finance-main-1.0.0.jar
+```
 
+```bash
+export FIN_URL=http://localhost:8082
+```
 
+```bash
+curl -sS -X POST $FIN_URL/api/finance/orders/history \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customerId": "LONEP",
+    "startDate": "2024-01-20T00:00:00",
+    "endDate": "2024-01-31T23:59:59",
+    "limit": 10
+  }' | jq
+```
+
+### Container image
 ```bash
 brew install podman 
 podman machine start
@@ -220,7 +238,7 @@ podman build --arch amd64 --os linux -t quay.io/burrsutter/fantaco-finance-main:
 ```
 
 ```bash
-podman run -d \
+podman run \
   --name fantaco-finance-main \
   -p 8082:8082 \
   -e SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/fantaco_finance \
@@ -377,13 +395,10 @@ The application includes:
 - Actuator endpoints for monitoring
 - Structured logging with configurable levels
 
-## Security
+## Cleaning
 
-- Non-root user in Docker container
-- Security context in Kubernetes
-- Input validation on all endpoints
-- SQL injection protection via JPA
+Database cleaning
 
-## License
-
-This project is licensed under the MIT License.
+```bash
+psql -U postgres -d fantaco_finance -c "DO \$\$ DECLARE r RECORD; BEGIN FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE'; END LOOP; END \$\$;"
+```
